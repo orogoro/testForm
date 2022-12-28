@@ -1,14 +1,33 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import InputMask from 'react-input-mask';
+import { nanoid } from 'nanoid';
 // import { Loader } from '../';
 
+// import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, set } from 'firebase/database';
+import { getStorage } from 'firebase/storage';
+
+// import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
+
 import styles from './Form.module.scss';
+
+// const firebaseConfig = {
+//   apiKey: 'AIzaSyARLTm-j_oBNWYe6EcH-4kQbJvhj9ihyy0',
+//   authDomain: 'fir-test-f9901.firebaseapp.com',
+//   databaseURL:
+//     'https://fir-test-f9901-default-rtdb.europe-west1.firebasedatabase.app',
+//   projectId: 'fir-test-f9901',
+//   storageBucket: 'fir-test-f9901.appspot.com',
+//   messagingSenderId: '358233767492',
+//   appId: '1:358233767492:web:50592e65943ec135260611',
+// };
 
 const Form = () => {
   const [disable, setDisable] = useState(true);
   const [phoneValue, setPhoneValue] = useState('');
   const [birthdayValue, setBirthdayValue] = useState('');
+  const [selectPicture, setSelectPicture] = useState('');
 
   const {
     register,
@@ -31,24 +50,72 @@ const Form = () => {
 
   const resultFile = file?.length > 30 ? file.slice(0, 30) + '...' : file;
 
+  // const app = initializeApp(firebaseConfig);
+  // const db = getFirestore(app);
+  // const database = getDatabase(app);
+  // const storageData = getStorage();
+  // console.log(database);
+
+  // async function getCities(db) {
+  //   const citiesCol = collection(db, 'users');
+  //   console.log(citiesCol);
+  //   const citySnapshot = await getDocs(citiesCol);
+  //   console.log(citySnapshot);
+  //   const cityList = citySnapshot.docs.map(doc => doc.data());
+  //   console.log(cityList);
+  //   return cityList;
+  // }
+
+  // function writeUserData(userId, name, email, imageUrl) {
+  //   const db = getDatabase();
+  //   set(ref(db, 'users/' + userId), {
+  //     username: name,
+  //     email: email,
+  //     profile_picture: imageUrl,
+  //   });
+  // }
+
   const handleSubmitForm = data => {
     // getToken().then(response => {
     // const config = { headers: { Token: response } };
-    const formData = new FormData();
-    formData.append('name', data.name);
-    formData.append('email', data.email);
-    formData.append('phone', data.phone);
-    formData.append('surname', data.surname);
-    formData.append('birthday', data.birthday);
-    formData.append('photo', data.file[0]);
-
+    // const formData = new FormData();
+    // formData.append('name', data.name);
+    // formData.append('email', data.email);
+    // formData.append('phone', data.phone);
+    // formData.append('surname', data.surname);
+    // formData.append('birthday', data.birthday);
+    // formData.append('photo', data.file[0]);
     // onSubmit(formData, config);
     // });
 
+    // const reader = new FileReader();
+    // reader.readAsDataURL(data.file[0]);
+    // reader.onloadend = () => {
+    //   const base64data = reader.result;
+    //   setSelectPicture(base64data);
+    // };
+
+    //отправляем в storage
+    // const storageData = getStorage().ref(`/profiles/${nanoid()}/photo`);
+    //получаем ссылку на картинку
+    // storageData.put(photo);
+    // let newPhoto = storageData.getDownloadURL();
+
+    const db = getDatabase();
+    set(ref(db, 'users/' + nanoid()), {
+      name: data.name,
+      email: data.email,
+      surname: data.surname,
+      phone: data.phone,
+      birthday: data.birthday,
+      // photo: data.file[0],
+    });
+
     console.log(data);
-    setPhoneValue('');
-    setBirthdayValue('');
-    reset();
+
+    // setPhoneValue('');
+    // setBirthdayValue('');
+    // reset();
   };
 
   useEffect(() => {
