@@ -1,0 +1,232 @@
+@import '../../styles/variables.scss';
+
+.form {
+  &_container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    padding: 100px 0 50px;
+    background-color: $secondaryBakgroundColor;
+  }
+
+  &_title {
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 40px;
+    margin-bottom: 50px;
+    color: rgba(0, 0, 0, 0.87);
+  }
+
+  &_form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  &_input__container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+
+    & + & {
+      margin-top: 30px;
+    }
+  }
+
+  &_input {
+    width: 380px;
+    padding: 14px 16px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 26px;
+
+    background-color: transparent;
+    border: 1px solid #d0cfcf;
+    border-radius: 4px;
+
+    &:focus {
+      outline: none;
+
+      &::placeholder {
+        color: transparent;
+      }
+    }
+
+    & + label {
+      display: block;
+      position: absolute;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 14px;
+      top: -7px;
+      left: 0;
+      color: #7e7e7e;
+      background-color: #f8f8f8;
+      padding: 0 4px;
+      margin-left: 12px;
+    }
+  }
+
+  &_phone {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    color: #7e7e7e;
+    margin-left: 12px;
+    margin-top: 4px;
+  }
+
+  &_text {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+    margin-top: 25px;
+    margin-bottom: 11px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 26px;
+    color: rgba(0, 0, 0, 0.87);
+  }
+}
+
+.error {
+  margin: 2px 0;
+  color: #cb3d40;
+}
+
+.input_error {
+  width: 380px;
+  padding: 14px 16px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 26px;
+
+  background-color: transparent;
+  border: 1px solid #cb3d40;
+  border-radius: 4px;
+
+  &:focus {
+    outline: none;
+
+    &::placeholder {
+      color: transparent;
+    }
+  }
+
+  & + label {
+    display: block;
+    position: absolute;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    top: -7px;
+    left: 0;
+    color: #cb3d40;
+    background-color: #f8f8f8;
+    padding: 0 4px;
+    margin-left: 12px;
+  }
+}
+
+.field__wrapper {
+  width: 100%;
+  position: relative;
+  margin: 30px 0 0;
+  text-align: center;
+}
+
+.field__file {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+}
+
+.field__lable {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+
+  &:hover .field__button {
+    background-color: #c4c4c4a1;
+  }
+}
+
+.field__fake {
+  height: 54px;
+  width: calc(100% - 116px);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 26px;
+  padding: 0 16px;
+  color: #7e7e7e;
+  border: 1px solid #d0cfcf;
+  border-radius: 0 4px 4px 0;
+  border-left: none;
+  cursor: pointer;
+}
+
+.span_file {
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.field__button {
+  width: 83px;
+  height: 54px;
+  color: rgba(0, 0, 0, 0.87);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 26px;
+
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 0, 0, 0.87);
+  border-radius: 4px 0px 0px 4px;
+  cursor: pointer;
+}
+
+.button {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 26px;
+  padding: 4px 22px 4px 23px;
+  border: none;
+  margin: 50px auto 0;
+
+  color: rgba(0, 0, 0, 0.87);
+  background: #f4e041;
+  border-radius: 80px;
+  transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ffe302;
+  }
+
+  &:disabled {
+    background-color: #b4b4b4;
+    color: rgba(255, 255, 255, 0.87);
+  }
+}

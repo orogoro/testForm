@@ -1,0 +1,10 @@
+@import '../../styles/variables.scss';
+
+.container {
+  width: $desktop;
+  margin: 0 auto;
+
+  //   @media screen and (max-width: $tablet) {
+  //     width: $tablet;
+  //   }
+}

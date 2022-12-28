@@ -1,0 +1,28 @@
+// Screen sizes
+// $mobile: 320px;
+// $mobileLandscape: 1023px;
+// $tablet: 768px;
+$desktop: 1440px;
+
+// Colors
+$bakgroundColor: #fdf7f2;
+$secondaryBakgroundColor: #f8f8f8;
+$lightColor: #ffffff;
+
+$textColor: #111111;
+$secondaryTextColor: #000000;
+
+$orangeColor: #f59256;
+$hoverOrangeColor: #e7884d;
+
+$primaryGrayColor: rgba(17, 17, 17, 0.6);
+$secondaryGrayColor: #535353;
+
+$errorColor: #d60202;
+
+// borders
+$inputBorder: 1px solid rgba(245, 146, 86, 0.5);
+
+// shadows
+$primaryShadow: 7px 4px 14px rgba(0, 0, 0, 0.11);
+$focusInputShadow: 0 0 0 0.1rem rgba(245, 146, 86, 0.5);
