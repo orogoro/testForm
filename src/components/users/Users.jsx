@@ -1,7 +1,4 @@
 import { useState, useEffect } from 'react';
-// import firebase from 'firebase/app';
-// import 'firebase/database';
-
 import { getDatabase, ref, get, child } from 'firebase/database';
 
 import { UsersItem } from '../';
@@ -9,16 +6,6 @@ import { UsersItem } from '../';
 import styles from './Users.module.scss';
 
 const Users = () => {
-  // const db = getDatabase();
-  // console.log(db);
-  // const starCountRef = ref(db, 'users/');
-  // console.log(starCountRef);
-  // onValue(starCountRef, snapshot => {
-  //   const data = snapshot.val();
-  //   console.log(data);
-  //   // updateStarCount(postElement, data);
-  // });
-
   const [users, setUsers] = useState([]);
 
   useEffect(() => {

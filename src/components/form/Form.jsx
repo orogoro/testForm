@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import InputMask from 'react-input-mask';
-import { nanoid } from 'nanoid';
+import { toast } from 'react-toastify';
 import { Loader } from '../';
 
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, set, push } from 'firebase/database';
-import { getStorage } from 'firebase/storage';
+// import * as storage from 'firebase/storage';
 
-// import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
-
+import 'react-toastify/dist/ReactToastify.css';
 import styles from './Form.module.scss';
 
 const firebaseConfig = {
@@ -29,7 +28,6 @@ const Form = () => {
   const [phoneValue, setPhoneValue] = useState('');
   const [birthdayValue, setBirthdayValue] = useState('');
   const [loading, setLoading] = useState(false);
-  // const [selectPicture, setSelectPicture] = useState('');
 
   const {
     register,
@@ -43,38 +41,14 @@ const Form = () => {
     },
   });
 
-  const file = watch('file')[0]?.name;
+  // const file = watch('file')[0]?.name;
   const name = watch('name');
   const surname = watch('surname');
   const email = watch('email');
   const phone = watch('phone');
   const birthday = watch('birthday');
 
-  const resultFile = file?.length > 30 ? file.slice(0, 30) + '...' : file;
-
-  // const db = getFirestore(app);
-  // const database = getDatabase(app);
-  // const storageData = getStorage();
-  // console.log(database);
-
-  // async function getCities(db) {
-  //   const citiesCol = collection(db, 'users');
-  //   console.log(citiesCol);
-  //   const citySnapshot = await getDocs(citiesCol);
-  //   console.log(citySnapshot);
-  //   const cityList = citySnapshot.docs.map(doc => doc.data());
-  //   console.log(cityList);
-  //   return cityList;
-  // }
-
-  // function writeUserData(userId, name, email, imageUrl) {
-  //   const db = getDatabase();
-  //   set(ref(db, 'users/' + userId), {
-  //     username: name,
-  //     email: email,
-  //     profile_picture: imageUrl,
-  //   });
-  // }
+  // const resultFile = file?.length > 30 ? file.slice(0, 30) + '...' : file;
 
   const handleSubmitForm = data => {
     // getToken().then(response => {
@@ -89,12 +63,14 @@ const Form = () => {
     // onSubmit(formData, config);
     // });
 
-    // const reader = new FileReader();
-    // reader.readAsDataURL(data.file[0]);
-    // reader.onloadend = () => {
-    //   const base64data = reader.result;
-    //   setSelectPicture(base64data);
-    // };
+    // const storages = storage.getStorage();
+    // const storageRef = storage.ref(storages);
+    // // const mountainImagesRef = storage.ref(storages, 'images/mountains.jpg');
+
+    // storage.uploadBytes(storageRef, data.file[0]).then(snapshot => {
+    //   console.log(snapshot);
+    //   console.log('Uploaded a blob or file!');
+    // });
 
     const db = getDatabase();
     const postListRef = ref(db, 'users');
@@ -108,27 +84,17 @@ const Form = () => {
       // photo: data.file[0],
     });
 
-    // const db = getDatabase();
-    // set(ref(db, 'users/' + nanoid()), {
-    //   name: data.name,
-    //   email: data.email,
-    //   surname: data.surname,
-    //   phone: data.phone,
-    //   birthday: data.birthday,
-    //   // photo: data.file[0],
-    // });
-
-    // console.log(data);
-
     setLoading(true);
 
     setTimeout(() => {
       setLoading(false);
+
+      toast.success('Add new user', {});
     }, 500);
 
-    // setPhoneValue('');
-    // setBirthdayValue('');
-    // reset();
+    setPhoneValue('');
+    setBirthdayValue('');
+    reset();
   };
 
   useEffect(() => {
@@ -167,7 +133,6 @@ const Form = () => {
           <label>Your name</label>
           <p className={styles.error}>{errors.name?.message}</p>
         </div>
-
         <div className={styles.form_input__container}>
           <input
             className={errors.surname ? styles.input_error : styles.form_input}
@@ -191,7 +156,6 @@ const Form = () => {
           <label>Your surname</label>
           <p className={styles.error}>{errors.surname?.message}</p>
         </div>
-
         <div className={styles.form_input__container}>
           <input
             className={errors.email ? styles.input_error : styles.form_input}
@@ -217,7 +181,6 @@ const Form = () => {
           <label>Email</label>
           <p className={styles.error}>{errors.email?.message}</p>
         </div>
-
         <div className={styles.form_input__container}>
           <InputMask
             className={errors.phone ? styles.input_error : styles.form_input}
@@ -242,7 +205,6 @@ const Form = () => {
             )}
           </p>
         </div>
-
         <div className={styles.form_input__container}>
           <InputMask
             className={errors.birthday ? styles.input_error : styles.form_input}
@@ -275,7 +237,6 @@ const Form = () => {
             )}
           </p>
         </div>
-
         {/* <div className={styles.field__wrapper}>
           <label className={styles.field__lable}>
             <input
@@ -296,8 +257,8 @@ const Form = () => {
               )}
             </div>
           </label>
-        </div> */}
-        {/* <p className={styles.error}>{errors.file?.message}</p> */}
+        </div>
+        <p className={styles.error}>{errors.file?.message}</p> */}
 
         {!loading ? (
           <button className={styles.button} type="submit" disabled={disable}>

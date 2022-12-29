@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import styles from './UsersItem.module.scss';
 
 const UsersItem = ({ data }) => {
@@ -25,3 +27,13 @@ const UsersItem = ({ data }) => {
 };
 
 export default UsersItem;
+
+UsersItem.propTypes = {
+  data: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    surname: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    phone: PropTypes.string.isRequired,
+    birthday: PropTypes.string.isRequired,
+  }),
+};
