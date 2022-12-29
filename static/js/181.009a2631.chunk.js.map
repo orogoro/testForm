@@ -1,1 +1,0 @@
-{"version":3,"file":"static/js/181.009a2631.chunk.js","mappings":"4HAMA,UAJkB,WAChB,OAAO,mBACR,C","sources":["pages/usersPage/UsersPage.jsx"],"sourcesContent":["// import { Form } from '../../components/';\n\nconst UsersPage = () => {\n  return <main>{/* <Form /> */}</main>;\n};\n\nexport default UsersPage;\n"],"names":[],"sourceRoot":""}
