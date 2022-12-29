@@ -2,32 +2,34 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import InputMask from 'react-input-mask';
 import { nanoid } from 'nanoid';
-// import { Loader } from '../';
+import { Loader } from '../';
 
-// import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, set } from 'firebase/database';
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, set, push } from 'firebase/database';
 import { getStorage } from 'firebase/storage';
 
 // import { getFirestore, collection, getDocs } from 'firebase/firestore/lite';
 
 import styles from './Form.module.scss';
 
-// const firebaseConfig = {
-//   apiKey: 'AIzaSyARLTm-j_oBNWYe6EcH-4kQbJvhj9ihyy0',
-//   authDomain: 'fir-test-f9901.firebaseapp.com',
-//   databaseURL:
-//     'https://fir-test-f9901-default-rtdb.europe-west1.firebasedatabase.app',
-//   projectId: 'fir-test-f9901',
-//   storageBucket: 'fir-test-f9901.appspot.com',
-//   messagingSenderId: '358233767492',
-//   appId: '1:358233767492:web:50592e65943ec135260611',
-// };
+const firebaseConfig = {
+  apiKey: 'AIzaSyARLTm-j_oBNWYe6EcH-4kQbJvhj9ihyy0',
+  authDomain: 'fir-test-f9901.firebaseapp.com',
+  databaseURL:
+    'https://fir-test-f9901-default-rtdb.europe-west1.firebasedatabase.app',
+  projectId: 'fir-test-f9901',
+  storageBucket: 'fir-test-f9901.appspot.com',
+  messagingSenderId: '358233767492',
+  appId: '1:358233767492:web:50592e65943ec135260611',
+};
+initializeApp(firebaseConfig);
 
 const Form = () => {
   const [disable, setDisable] = useState(true);
   const [phoneValue, setPhoneValue] = useState('');
   const [birthdayValue, setBirthdayValue] = useState('');
-  const [selectPicture, setSelectPicture] = useState('');
+  const [loading, setLoading] = useState(false);
+  // const [selectPicture, setSelectPicture] = useState('');
 
   const {
     register,
@@ -50,7 +52,6 @@ const Form = () => {
 
   const resultFile = file?.length > 30 ? file.slice(0, 30) + '...' : file;
 
-  // const app = initializeApp(firebaseConfig);
   // const db = getFirestore(app);
   // const database = getDatabase(app);
   // const storageData = getStorage();
@@ -95,14 +96,10 @@ const Form = () => {
     //   setSelectPicture(base64data);
     // };
 
-    //отправляем в storage
-    // const storageData = getStorage().ref(`/profiles/${nanoid()}/photo`);
-    //получаем ссылку на картинку
-    // storageData.put(photo);
-    // let newPhoto = storageData.getDownloadURL();
-
     const db = getDatabase();
-    set(ref(db, 'users/' + nanoid()), {
+    const postListRef = ref(db, 'users');
+    const newPostRef = push(postListRef);
+    set(newPostRef, {
       name: data.name,
       email: data.email,
       surname: data.surname,
@@ -111,7 +108,23 @@ const Form = () => {
       // photo: data.file[0],
     });
 
-    console.log(data);
+    // const db = getDatabase();
+    // set(ref(db, 'users/' + nanoid()), {
+    //   name: data.name,
+    //   email: data.email,
+    //   surname: data.surname,
+    //   phone: data.phone,
+    //   birthday: data.birthday,
+    //   // photo: data.file[0],
+    // });
+
+    // console.log(data);
+
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
 
     // setPhoneValue('');
     // setBirthdayValue('');
@@ -119,14 +132,14 @@ const Form = () => {
   };
 
   useEffect(() => {
-    if (name && email && phone && surname && file && birthday) {
+    if (name && email && phone && surname && birthday) {
       setDisable(false);
     }
-  }, [email, file, name, phone, surname, birthday]);
+  }, [email, name, phone, surname, birthday]);
 
   return (
     <div className={styles.form_container} id="form">
-      <h2 className={styles.form_title}>Working with POST request</h2>
+      <h2 className={styles.form_title}>Add user form</h2>
       <form
         className={styles.form_form}
         onSubmit={handleSubmit(handleSubmitForm)}
@@ -142,8 +155,8 @@ const Form = () => {
                 message: 'Min length is 2',
               },
               maxLength: {
-                value: 60,
-                message: 'Max length is 60',
+                value: 40,
+                message: 'Max length is 40',
               },
               pattern: {
                 value: /^[a-zA-Zа-яА-ЯА-ЯЁёЇїІіЄєҐґ]*$/,
@@ -166,8 +179,8 @@ const Form = () => {
                 message: 'Min length is 2',
               },
               maxLength: {
-                value: 60,
-                message: 'Max length is 60',
+                value: 40,
+                message: 'Max length is 40',
               },
               pattern: {
                 value: /^[a-zA-Zа-яА-ЯА-ЯЁёЇїІіЄєҐґ]*$/,
@@ -195,7 +208,7 @@ const Form = () => {
               },
               pattern: {
                 value:
-                  /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/,
+                  /^([a-zA-Z0-9_-]+\.)*[a-zA-Z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/,
                 message: 'example@gmail.com',
               },
             })}
@@ -263,7 +276,7 @@ const Form = () => {
           </p>
         </div>
 
-        <div className={styles.field__wrapper}>
+        {/* <div className={styles.field__wrapper}>
           <label className={styles.field__lable}>
             <input
               className={styles.field__file}
@@ -283,16 +296,18 @@ const Form = () => {
               )}
             </div>
           </label>
-        </div>
-        <p className={styles.error}>{errors.file?.message}</p>
+        </div> */}
+        {/* <p className={styles.error}>{errors.file?.message}</p> */}
 
-        {/* {!loading ? ( */}
-        <button className={styles.button} type="submit" disabled={disable}>
-          Sign up
-        </button>
-        {/* ) : (
-          <Loader />
-        )} */}
+        {!loading ? (
+          <button className={styles.button} type="submit" disabled={disable}>
+            Sign up
+          </button>
+        ) : (
+          <div className={styles.loader}>
+            <Loader size={60} />
+          </div>
+        )}
       </form>
     </div>
   );

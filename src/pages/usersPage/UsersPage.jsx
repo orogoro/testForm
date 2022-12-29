@@ -1,7 +1,11 @@
-// import { Form } from '../../components/';
+import { Users } from '../../components/';
 
 const UsersPage = () => {
-  return <main>{/* <Form /> */}</main>;
+  return (
+    <main>
+      <Users />
+    </main>
+  );
 };
 
 export default UsersPage;

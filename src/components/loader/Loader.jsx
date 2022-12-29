@@ -2,12 +2,12 @@ import PuffLoader from 'react-spinners/PuffLoader';
 
 import styles from './Loader.module.scss';
 
-const Loader = () => {
+const Loader = ({ size }) => {
   return (
     <PuffLoader
-      color={styles.color}
+      color="#f59256"
       //   loading={loading}
-      size={150}
+      size={size}
     />
   );
 };
