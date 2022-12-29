@@ -1,16 +1,8 @@
 import PuffLoader from 'react-spinners/PuffLoader';
 import PropTypes from 'prop-types';
 
-import styles from './Loader.module.scss';
-
 const Loader = ({ size }) => {
-  return (
-    <PuffLoader
-      color="#f59256"
-      //   loading={loading}
-      size={size}
-    />
-  );
+  return <PuffLoader color="#f59256" size={size} />;
 };
 
 export default Loader;
