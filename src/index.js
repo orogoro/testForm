@@ -22,7 +22,7 @@ initializeApp(firebaseConfig, 'users');
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter basename="/testForm/">
+    <BrowserRouter basename="/testForm">
       <App />
     </BrowserRouter>
   </React.StrictMode>
