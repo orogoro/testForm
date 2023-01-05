@@ -1,1 +1,0 @@
-{"version":3,"file":"static/js/483.207f4222.chunk.js","mappings":"qIAUA,UARiB,WACf,OACE,2BACE,SAAC,KAAD,KAGL,C","sources":["pages/formPage/FormPage.jsx"],"sourcesContent":["import { Form } from '../../components/';\n\nconst FormPage = () => {\n  return (\n    <main>\n      <Form />\n    </main>\n  );\n};\n\nexport default FormPage;\n"],"names":[],"sourceRoot":""}
