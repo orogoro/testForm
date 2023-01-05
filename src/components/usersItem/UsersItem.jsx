@@ -3,10 +3,13 @@ import PropTypes from 'prop-types';
 import styles from './UsersItem.module.scss';
 
 const UsersItem = ({ data }) => {
-  const { name, surname, email, phone, birthday } = data;
+  const { name, surname, email, phone, birthday, photo } = data;
   return (
     <li className={styles.item}>
       <p className={styles.title}>User</p>
+      <div className={styles.containerImage}>
+        <img className={styles.image} src={photo} alt="photo_user" />
+      </div>
       <p className={styles.text}>
         Name: <span className={styles.span}>{name}</span>
       </p>
@@ -35,5 +38,6 @@ UsersItem.propTypes = {
     email: PropTypes.string.isRequired,
     phone: PropTypes.string.isRequired,
     birthday: PropTypes.string.isRequired,
+    photo: PropTypes.string.isRequired,
   }),
 };

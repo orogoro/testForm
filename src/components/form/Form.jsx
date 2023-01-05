@@ -4,24 +4,16 @@ import InputMask from 'react-input-mask';
 import { toast } from 'react-toastify';
 import { Loader } from '../';
 
-import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, set, push } from 'firebase/database';
-// import * as storage from 'firebase/storage';
+import { onSet } from '../../services/firebase/database';
+import {
+  getStorageRef,
+  getPathReference,
+  onUploadString,
+  getUrl,
+} from '../../services/firebase/storage';
 
 import 'react-toastify/dist/ReactToastify.css';
 import styles from './Form.module.scss';
-
-const firebaseConfig = {
-  apiKey: 'AIzaSyARLTm-j_oBNWYe6EcH-4kQbJvhj9ihyy0',
-  authDomain: 'fir-test-f9901.firebaseapp.com',
-  databaseURL:
-    'https://fir-test-f9901-default-rtdb.europe-west1.firebasedatabase.app',
-  projectId: 'fir-test-f9901',
-  storageBucket: 'fir-test-f9901.appspot.com',
-  messagingSenderId: '358233767492',
-  appId: '1:358233767492:web:50592e65943ec135260611',
-};
-initializeApp(firebaseConfig);
 
 const Form = () => {
   const [disable, setDisable] = useState(true);
@@ -41,67 +33,54 @@ const Form = () => {
     },
   });
 
-  // const file = watch('file')[0]?.name;
+  const file = watch('file')[0]?.name;
   const name = watch('name');
   const surname = watch('surname');
   const email = watch('email');
   const phone = watch('phone');
   const birthday = watch('birthday');
 
-  // const resultFile = file?.length > 30 ? file.slice(0, 30) + '...' : file;
+  const resultFile = file?.length > 30 ? file.slice(0, 30) + '...' : file;
+  const storageRef = getStorageRef(resultFile);
+  const pathReference = getPathReference(resultFile);
 
   const handleSubmitForm = data => {
-    // getToken().then(response => {
-    // const config = { headers: { Token: response } };
-    // const formData = new FormData();
-    // formData.append('name', data.name);
-    // formData.append('email', data.email);
-    // formData.append('phone', data.phone);
-    // formData.append('surname', data.surname);
-    // formData.append('birthday', data.birthday);
-    // formData.append('photo', data.file[0]);
-    // onSubmit(formData, config);
-    // });
+    const reader = new FileReader();
+    reader.readAsDataURL(data.file[0]);
+    reader.onloadend = async () => {
+      const base64data = reader.result;
+      await onUploadString(storageRef, base64data);
+      const url = await getUrl(pathReference);
 
-    // const storages = storage.getStorage();
-    // const storageRef = storage.ref(storages);
-    // // const mountainImagesRef = storage.ref(storages, 'images/mountains.jpg');
-
-    // storage.uploadBytes(storageRef, data.file[0]).then(snapshot => {
-    //   console.log(snapshot);
-    //   console.log('Uploaded a blob or file!');
-    // });
-
-    const db = getDatabase();
-    const postListRef = ref(db, 'users');
-    const newPostRef = push(postListRef);
-    set(newPostRef, {
-      name: data.name,
-      email: data.email,
-      surname: data.surname,
-      phone: data.phone,
-      birthday: data.birthday,
-      // photo: data.file[0],
-    });
+      onSet(
+        data.name,
+        data.email,
+        data.surname,
+        data.phone,
+        data.birthday,
+        url
+      );
+    };
 
     setLoading(true);
 
     setTimeout(() => {
       setLoading(false);
+      setPhoneValue('');
+      setBirthdayValue('');
+      reset();
 
-      toast.success('Add new user', {});
+      toast.success('Add new user');
     }, 500);
-
-    setPhoneValue('');
-    setBirthdayValue('');
-    reset();
   };
 
   useEffect(() => {
-    if (name && email && phone && surname && birthday) {
+    if (name && email && phone && surname && birthday && file) {
       setDisable(false);
+      return;
     }
-  }, [email, name, phone, surname, birthday]);
+    setDisable(true);
+  }, [email, name, phone, surname, birthday, file]);
 
   return (
     <div className={styles.form_container} id="form">
@@ -237,7 +216,7 @@ const Form = () => {
             )}
           </p>
         </div>
-        {/* <div className={styles.field__wrapper}>
+        <div className={styles.field__wrapper}>
           <label className={styles.field__lable}>
             <input
               className={styles.field__file}
@@ -258,7 +237,7 @@ const Form = () => {
             </div>
           </label>
         </div>
-        <p className={styles.error}>{errors.file?.message}</p> */}
+        <p className={styles.error}>{errors.file?.message}</p>
 
         {!loading ? (
           <button className={styles.button} type="submit" disabled={disable}>
